@@ -64,10 +64,24 @@ class Controller
         return Task::clear($timerID);
     }
 
-    public function showMessage($message)
+    /**
+     * 输出html
+     * @param $html
+     */
+    public function show($html)
     {
         $this->httpKernel->getResponse()->header("Content-Type", "text/html; charset=utf-8");
-        $this->httpKernel->getResponse()->end($message);
+        $this->httpKernel->getResponse()->end($html);
+    }
+
+    /**
+     * 返回api响应（json）
+     * @param array $data
+     */
+    public function response(array $data)
+    {
+        $this->httpKernel->getResponse()->header('content-type', 'application/json;charset=utf-8');
+        $this->httpKernel->getResponse()->end(json_encode($data));
     }
 
     public function getRequest()
