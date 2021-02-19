@@ -13,6 +13,8 @@
 
 博客地址：[http://huotublog.com](http://huotublog.com)
 
+博文还包括使用此框架开发一个博客系统。
+
 ## 环境要求
 
 - PHP：7.4 以上
@@ -293,6 +295,18 @@ class User extends Model
 $user = User::find(1);
 var_dump($user);
 ```
+
+## Blade 模板
+视图采用 blade 模板。
+
+## 日志系统
+调用方法：
+
+```
+Log::getLogger()->error('日志');
+```
+
+日志存放位置可在 app.php 配置。
 
 ## Cache
 框架实现了简单的缓存系统，目前只有 redis 驱动可用。
