@@ -1,0 +1,27 @@
+{
+  "name": "firerabbit/engine",
+  "description": "基于swoole的个人框架。",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "火烧兔子",
+      "email": "huoshaotuzi@icloud.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "illuminate/database": "^7.30",
+    "xiaoler/blade": "^5.4",
+    "monolog/monolog": "^2.2",
+    "firebase/php-jwt": "^5.2",
+    "phpmailer/phpmailer": "^6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Firerabbit\\": "src/"
+    },
+    "files": [
+      "src/common/function.php"
+    ]
+  }
+}
