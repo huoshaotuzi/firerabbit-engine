@@ -18,10 +18,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Firerabbit\\": "src/"
+      "FireRabbit\\Engine\\": "src/"
     },
     "files": [
-      "src/common/function.php"
+      "src/function.php"
     ]
   }
 }
