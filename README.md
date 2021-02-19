@@ -9,6 +9,10 @@
 
 如果你之前用过 Laravel，再使用此框架基本可以立即上手。
 
+我的博客记录了框架的开发过程，如有兴趣可前往了解。
+
+博客地址：[http://huotublog.com](http://huotublog.com)
+
 ## 环境要求
 
 - PHP：7.4 以上
