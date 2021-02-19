@@ -61,6 +61,25 @@ proxy_pass http://127.0.0.1:9527; # 你的端口
 
 对应的配置文件及代码，如下说明。
 
+### 自动加载
+给你的项目添加自动加载，修改 composer.json：
+
+```
+{
+  "require": {
+    "firerabbit/engine": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  }
+}
+
+```
+
+加入 autoload 字段，然后执行 `composer dump-autoload` 重新生成自动加载文件即可。
+
 ### 快速开始
 只要仿照本文例子的文件结构及代码，即可直接启动框架实现简单页面的展示。
 
