@@ -167,6 +167,8 @@ class Router
         $route->middlewares = $middlewares;
 
         self::$routes[$this->lastHandleRouteIndex] = $route;
+
+        return $this;
     }
 
     /**

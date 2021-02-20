@@ -15,7 +15,7 @@ use FireRabbit\Engine\View\Blade;
 
 class Controller
 {
-    protected $httpKernel;
+    protected HttpKernel $httpKernel;
 
     public function __construct(HttpKernel $httpKernel)
     {

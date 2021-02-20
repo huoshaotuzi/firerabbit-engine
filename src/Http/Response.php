@@ -23,10 +23,4 @@ class Response
     {
         return $this->response;
     }
-
-    public function showMessage($message)
-    {
-        $this->response->header("Content-Type", "text/html; charset=utf-8");
-        $this->response->end($message);
-    }
 }
