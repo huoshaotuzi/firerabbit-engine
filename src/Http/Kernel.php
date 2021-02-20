@@ -28,8 +28,9 @@ class Kernel
      */
     public function html($html)
     {
-        $this->response->header("Content-Type", "text/html; charset=utf-8");
-        $this->response->end($html);
+        $response = $this->response->getResponse();
+        $response->header("Content-Type", "text/html; charset=utf-8");
+        $response->end($html);
     }
 
     /**
@@ -38,8 +39,9 @@ class Kernel
      */
     public function response($content)
     {
-        $this->response->header('content-type', 'application/json;charset=utf-8');
-        $this->response->end(json_encode($content));
+        $response = $this->response->getResponse();
+        $response->header('content-type', 'application/json;charset=utf-8');
+        $response->end(json_encode($content));
     }
 
     public function getServer(): Server

@@ -8,10 +8,9 @@
 
 namespace FireRabbit\Engine\Route;
 
+use FireRabbit\Engine\Http\Kernel;
 use FireRabbit\Engine\Http\Kernel as HttpKernel;
 use FireRabbit\Engine\Http\Pipeline;
-use FireRabbit\Engine\Http\Request;
-use FireRabbit\Engine\Http\Response;
 use FireRabbit\Engine\Route\Exception\RouteParamException;
 use FireRabbit\Engine\Route\Response\ActionNotFoundResponse;
 use FireRabbit\Engine\Route\Response\MethodErrorResponse;
@@ -153,12 +152,13 @@ class RouteParams
 
     /**
      * 路由响应
-     * @param Server $server
-     * @param $request
-     * @param $response
+     * @param HttpKernel $kernel
      */
-    public function createResponse(Server $server, $request, $response)
+    public function createResponse(Kernel $kernel)
     {
+        $request = $kernel->getRequest();
+        $response = $kernel->getResponse();
+
         // 判断请求方法是否正确
         if ($this->method != Router::ANY && $request->server['request_method'] != $this->method) {
             (new MethodErrorResponse())->response($request, $response, $this);
@@ -171,7 +171,6 @@ class RouteParams
             (new ClassNotFoundResponse())->response($request, $response, $this);
         }
 
-        $this->server = $server;
         $action = $this->action;
 
         // 不存在方法则返回404
@@ -181,7 +180,6 @@ class RouteParams
         }
 
         $pipeline = new Pipeline();
-        $kernel = new HttpKernel($server, new Request($request, $this), new Response($response));
 
         $routeResponse = $pipeline->send($kernel)
             ->through(array_reverse($this->middlewares))
@@ -202,7 +200,7 @@ class RouteParams
 
             // 实例化类
             $controllerName = $this->getFullControllerName();
-            $controllerObject = new $controllerName($kernel, $this->server);
+            $controllerObject = new $controllerName($kernel);
             $this->uri = rtrim($request->server['request_uri'], '/');
 
             $params = $this->getRouteParams();

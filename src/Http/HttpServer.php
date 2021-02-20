@@ -21,8 +21,8 @@ use Swoole\Http\Server;
 
 class HttpServer
 {
-    public $server;
-    public $router;
+    protected $server;
+    protected $router;
 
     public function __construct($host, $port, $config = [])
     {

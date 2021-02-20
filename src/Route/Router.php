@@ -10,6 +10,10 @@
 
 namespace FireRabbit\Engine\Route;
 
+use FireRabbit\Engine\Http\Kernel;
+use FireRabbit\Engine\Http\Kernel as HttpKernel;
+use FireRabbit\Engine\Http\Request;
+use FireRabbit\Engine\Http\Response;
 use FireRabbit\Engine\Route\Exception\RouteParamException;
 use FireRabbit\Engine\Route\Response\NotFoundResponse;
 use Swoole\Http\Server;
@@ -30,6 +34,8 @@ class Router
      */
     private $lastHandleRouteIndex = null;
 
+    private static Kernel $kernel;
+
     /**
      * 处理路由
      * @param Server $server
@@ -45,7 +51,19 @@ class Router
             return;
         }
 
-        $route->createResponse($server, $request, $response);
+        $kernel = new HttpKernel($server, new Request($request, $this), new Response($response));
+        self::$kernel = $kernel;
+
+        $route->createResponse($kernel);
+    }
+
+    /**
+     * 全局获取http核心方法
+     * @return HttpKernel
+     */
+    public static function getHttpKernel()
+    {
+        return self::$kernel;
     }
 
     /**
