@@ -81,7 +81,7 @@ class Controller
      */
     public function response(array $data)
     {
-        $this->httpKernel->response(json_encode($data));
+        $this->httpKernel->response($data);
     }
 
     /**

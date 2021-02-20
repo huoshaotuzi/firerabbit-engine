@@ -39,7 +39,7 @@ class Kernel
     public function response($content)
     {
         $this->response->header('content-type', 'application/json;charset=utf-8');
-        $this->response->end($content);
+        $this->response->end(json_encode($content));
     }
 
     public function getServer(): Server
