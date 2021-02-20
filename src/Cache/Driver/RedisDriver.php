@@ -51,4 +51,19 @@ class RedisDriver implements DriverInterface
 
         return $value;
     }
+
+    public function get(string $key): string
+    {
+        return $this->instance->get($key);
+    }
+
+    public function set(string $key, string $value)
+    {
+        return $this->instance->set($key, $value);
+    }
+
+    public function setEx(string $key, string $value, int $ttl)
+    {
+        return $this->instance->setEx($key, $ttl, $value);
+    }
 }

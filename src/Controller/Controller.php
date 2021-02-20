@@ -70,10 +70,9 @@ class Controller
      * @param $blade
      * @param $params
      */
-    public function show($blade, $params = [])
+    public function html($blade, $params = [])
     {
-        $this->httpKernel->getResponse()->header("Content-Type", "text/html; charset=utf-8");
-        $this->httpKernel->getResponse()->end(Blade::view($blade, $params));
+        $this->httpKernel->html(Blade::view($blade, $params));
     }
 
     /**
@@ -82,8 +81,7 @@ class Controller
      */
     public function response(array $data)
     {
-        $this->httpKernel->getResponse()->header('content-type', 'application/json;charset=utf-8');
-        $this->httpKernel->getResponse()->end(json_encode($data));
+        $this->httpKernel->response(json_encode($data));
     }
 
     /**

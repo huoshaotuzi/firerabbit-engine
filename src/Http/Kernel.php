@@ -22,6 +22,26 @@ class Kernel
         $this->response = $response;
     }
 
+    /**
+     * 输出html
+     * @param $html
+     */
+    public function html($html)
+    {
+        $this->response->header("Content-Type", "text/html; charset=utf-8");
+        $this->response->end($html);
+    }
+
+    /**
+     * 输出JSON响应
+     * @param $content
+     */
+    public function response($content)
+    {
+        $this->response->header('content-type', 'application/json;charset=utf-8');
+        $this->response->end($content);
+    }
+
     public function getServer(): Server
     {
         return $this->server;

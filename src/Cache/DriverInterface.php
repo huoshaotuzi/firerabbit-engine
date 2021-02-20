@@ -22,6 +22,30 @@ interface DriverInterface
     public function load($config);
 
     /**
+     * 获取键值对缓存
+     * @param string $key
+     * @return string
+     */
+    public function get(string $key): string;
+
+    /**
+     * 设置键值对缓存（不过期）
+     * @param string $key
+     * @param string $value
+     * @return mixed
+     */
+    public function set(string $key, string $value);
+
+    /**
+     * 设置带有过期时间的键值对缓存
+     * @param string $key
+     * @param string $value
+     * @param int $ttl
+     * @return mixed
+     */
+    public function setEx(string $key, string $value, int $ttl);
+
+    /**
      * 含有过期时间的键值对
      * @param string $key
      * @param int $ttl
