@@ -20,7 +20,7 @@ class Router
     const POST = 'POST';
     const ANY = 'ANY';
 
-    protected $routes = [];
+    protected static $routes = [];
     protected $namespace = '';
     protected $middlewares = [];
 
@@ -55,7 +55,8 @@ class Router
      */
     public function findRouteFromName($routeName)
     {
-        foreach ($this->routes as $route) {
+        foreach (self::$routes as $route) {
+
             if ($route->name == $routeName) {
                 return $route;
             }
@@ -73,7 +74,7 @@ class Router
     {
         $uri = rtrim($request->server['request_uri'], '/');
 
-        foreach ($this->routes as $route) {
+        foreach (self::$routes as $route) {
 
             if (empty($uri)) {
 
@@ -144,10 +145,10 @@ class Router
         // 去除重复中间件
         $middlewares = array_unique($middlewares);
         // 找到最后一个添加的路由
-        $route = $this->routes[$this->lastHandleRouteIndex];
+        $route = self::$routes[$this->lastHandleRouteIndex];
         $route->middlewares = $middlewares;
 
-        $this->routes[$this->lastHandleRouteIndex] = $route;
+        self::$routes[$this->lastHandleRouteIndex] = $route;
     }
 
     /**
@@ -162,16 +163,16 @@ class Router
         }
 
         // 判断路由是否存在同名
-        foreach ($this->routes as $route) {
+        foreach (self::$routes as $route) {
             if ($route->name == $routeName) {
                 throw  new RouteParamException('路由名称重复[' . $routeName . ']');
             }
         }
 
-        $route = $this->routes[$this->lastHandleRouteIndex];
+        $route = self::$routes[$this->lastHandleRouteIndex];
         $route->name = $routeName;
 
-        $this->routes[$this->lastHandleRouteIndex] = $route;
+        self::$routes[$this->lastHandleRouteIndex] = $route;
 
         return $this;
     }
@@ -249,8 +250,8 @@ class Router
         $param->middlewares = $this->middlewares;
         $param->pattern = $this->getPattern($route);
 
-        $this->routes[] = $param;
-        $this->lastHandleRouteIndex = count($this->routes) - 1;
+        self::$routes[] = $param;
+        $this->lastHandleRouteIndex = count(self::$routes) - 1;
 
         return $this;
     }

@@ -86,6 +86,15 @@ class Controller
         $this->httpKernel->getResponse()->end(json_encode($data));
     }
 
+    /**
+     * 重定向到指定路径
+     * @param $path
+     */
+    public function redirect($path)
+    {
+        $this->httpKernel->getResponse()->redirect($path);
+    }
+
     public function getRequest()
     {
         return $this->httpKernel->getRequest();

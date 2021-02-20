@@ -9,7 +9,6 @@
 function route($routeName, $params = [])
 {
     $router = new \FireRabbit\Engine\Route\Router();
-
     $route = $router->findRouteFromName($routeName);
 
     if ($route == null) {
