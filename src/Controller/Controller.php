@@ -11,6 +11,7 @@ namespace FireRabbit\Engine\Controller;
 
 use FireRabbit\Engine\Task\Task;
 use FireRabbit\Engine\Http\Kernel as HttpKernel;
+use FireRabbit\Engine\View\Blade;
 
 class Controller
 {
@@ -66,12 +67,14 @@ class Controller
 
     /**
      * 输出html
-     * @param $html
+     * @param $blade
+     * @param $params
      */
-    public function show($html)
+    public function show($blade, $params)
     {
         $this->httpKernel->getResponse()->header("Content-Type", "text/html; charset=utf-8");
-        $this->httpKernel->getResponse()->end($html);
+
+        $this->httpKernel->getResponse()->end(Blade::view($blade, $params));
     }
 
     /**
