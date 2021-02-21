@@ -22,6 +22,61 @@ interface DriverInterface
     public function load($config);
 
     /**
+     * 获取哈希指定字段的值
+     * @param string $key
+     * @param string $field
+     * @return string
+     */
+    public function hGet(string $key, string $field): string;
+
+    /**
+     * 设置哈希指定字段的值
+     * @param string $key
+     * @param string $field
+     * @param $value
+     * @return mixed
+     */
+    public function hSet(string $key, string $field, $value);
+
+    /**
+     * 只有字段不存在时，设置哈希指定字段的值
+     * @param string $key
+     * @param string $field
+     * @param $value
+     * @return mixed
+     */
+    public function hSetNx(string $key, string $field, $value);
+
+    /**
+     * 删除指定的哈希
+     * @param string $key
+     * @return mixed
+     */
+    public function hDel(string $key);
+
+    /**
+     * 获取哈希所有字段
+     * @param string $key
+     * @return mixed
+     */
+    public function hGetAll(string $key);
+
+    /**
+     * 获取指定缓存的过期时间
+     * @param string $key
+     * @return mixed
+     */
+    public function ttl(string $key);
+
+    /**
+     * 设置指定缓存的过期时间
+     * @param string $key
+     * @param $ttl
+     * @return mixed
+     */
+    public function expire(string $key,$ttl);
+
+    /**
      * 获取键值对缓存
      * @param string $key
      * @return string

@@ -66,4 +66,39 @@ class RedisDriver implements DriverInterface
     {
         return $this->instance->setEx($key, $ttl, $value);
     }
+
+    public function hGet(string $key, string $field): string
+    {
+        return $this->instance->hget($key, $field);
+    }
+
+    public function hSet(string $key, string $field, $value)
+    {
+        return $this->instance->hset($key, $field, $value);
+    }
+
+    public function hSetNx(string $key, string $field, $value)
+    {
+        return $this->instance->hsetnx($key, $field, $value);
+    }
+
+    public function hDel(string $key)
+    {
+        return $this->instance->hdel($key);
+    }
+
+    public function hGetAll(string $key)
+    {
+        return $this->instance->hgetall($key);
+    }
+
+    public function ttl(string $key)
+    {
+        return $this->instance->ttl($key);
+    }
+
+    public function expire(string $key, $ttl)
+    {
+        return $this->instance->expire($key, $ttl);
+    }
 }
