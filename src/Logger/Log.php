@@ -50,15 +50,15 @@ class Log
     public static function getLogger()
     {
         if (self::$instance == null) {
-            self::$instance = new Logger(self::$config['channel']);
+            self::$instance = new Logger(self::$channel);
 
-            if (!file_exists(self::$config['path'])) {
-                $file = fopen(self::$config['path'], 'w');
+            if (!file_exists(self::$path)) {
+                $file = fopen(self::$path, 'w');
                 fwrite($file, '');
                 fclose($file);
             }
 
-            $streamHandler = new StreamHandler(self::$config['path'], self::$config['level']);
+            $streamHandler = new StreamHandler(self::$path, self::$level);
 //            $streamHandler->setFormatter(new JsonFormatter());
 
             self::$instance->pushHandler($streamHandler);

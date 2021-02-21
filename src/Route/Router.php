@@ -235,7 +235,6 @@ class Router
     public function group($func)
     {
         $func();
-
         // 执行完成后将参数初始化
         $this->namespace = '';
         $this->middlewares = [];

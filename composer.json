@@ -14,7 +14,8 @@
     "xiaoler/blade": "^5.4",
     "monolog/monolog": "^2.2",
     "firebase/php-jwt": "^5.2",
-    "phpmailer/phpmailer": "^6.2"
+    "phpmailer/phpmailer": "^6.2",
+    "guzzlehttp/guzzle": "^7.2"
   },
   "autoload": {
     "psr-4": {
