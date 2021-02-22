@@ -51,7 +51,7 @@ class Router
             return;
         }
 
-        $kernel = new HttpKernel($server, new Request($request, $this), new Response($response));
+        $kernel = new HttpKernel($server, new Request($request, $route), new Response($response));
         self::$kernel = $kernel;
 
         $route->createResponse($kernel);

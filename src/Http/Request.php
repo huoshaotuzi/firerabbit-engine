@@ -14,7 +14,7 @@ class Request
 {
     protected $request, $route;
 
-    public function __construct($request, $route)
+    public function __construct($request, RouteParams $route)
     {
         $this->request = $request;
         $this->route = $route;

@@ -67,6 +67,12 @@ class RouteParams
      */
     public $middlewares = [];
 
+    /**
+     * 路由参数
+     * @var array
+     */
+    public  $routeParams =[];
+
     private $uri;
 
     /**
@@ -128,6 +134,8 @@ class RouteParams
             // 移除路径参数
             unset($params[$key]);
         }
+
+        $this->routeParams = $replacements;
 
         // 然后将替换值根据规则进行置换
         $res = preg_replace($patterns, $replacements, $this->route);
