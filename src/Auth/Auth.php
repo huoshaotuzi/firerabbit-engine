@@ -21,11 +21,11 @@ class Auth
         self::$config = $config;
     }
 
-    public static function decode($token)
+    public static function decode($token, $key)
     {
         try {
             JWT::$leeway = self::$config['leeway'];
-            $decoded = JWT::decode($token, self::$config['key'], [self::$config['alg']]);
+            $decoded = JWT::decode($token, $key, [self::$config['alg']]);
             $data = (array)$decoded;
 
             return $data['data'] ?? null;
@@ -34,10 +34,9 @@ class Auth
         }
     }
 
-    public static function encode($data, $expired)
+    public static function encode($data, $expired, $key)
     {
         $currentTimestamp = time();
-        $key = self::$config['key'];
 
         $token = [
             'iat' => $currentTimestamp,
