@@ -38,6 +38,12 @@ interface DriverInterface
     public function decrBy($key, $value);
 
     /**
+     * 清空当前数据库
+     * @return mixed
+     */
+    public function flushdb();
+
+    /**
      * 判断是否存在
      * @param $key
      * @return mixed

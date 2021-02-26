@@ -116,4 +116,9 @@ class RedisDriver implements DriverInterface
     {
         return $this->instance->exists($key);
     }
+
+    public function flushdb()
+    {
+        return $this->instance->flushdb();
+    }
 }
