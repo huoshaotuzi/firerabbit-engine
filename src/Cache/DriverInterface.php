@@ -22,6 +22,29 @@ interface DriverInterface
     public function load($config);
 
     /**
+     * 自增
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function incrBy($key, $value);
+
+    /**
+     * 自减
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function decrBy($key, $value);
+
+    /**
+     * 判断是否存在
+     * @param $key
+     * @return mixed
+     */
+    public function exists($key);
+
+    /**
      * 获取哈希指定字段的值
      * @param string $key
      * @param string $field
@@ -74,7 +97,7 @@ interface DriverInterface
      * @param $ttl
      * @return mixed
      */
-    public function expire(string $key,$ttl);
+    public function expire(string $key, $ttl);
 
     /**
      * 获取键值对缓存

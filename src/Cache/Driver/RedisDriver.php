@@ -101,4 +101,19 @@ class RedisDriver implements DriverInterface
     {
         return $this->instance->expire($key, $ttl);
     }
+
+    public function incrBy($key, $value)
+    {
+        return $this->instance->incrBy($key, $value);
+    }
+
+    public function decrBy($key, $value)
+    {
+        return $this->instance->decrBy($key, $value);
+    }
+
+    public function exists($key)
+    {
+        return $this->instance->exists($key);
+    }
 }

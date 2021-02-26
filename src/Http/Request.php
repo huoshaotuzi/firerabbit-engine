@@ -40,7 +40,8 @@ class Request
      */
     public function isAjax()
     {
-        return 'XMLHttpRequest' == $this->request->header['x-requested-with'];
+        $header = $this->request->header['x-requested-with'] ?? null;
+        return 'XMLHttpRequest' == $header;
     }
 
     /**
