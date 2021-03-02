@@ -34,7 +34,7 @@ class Router
      */
     private $lastHandleRouteIndex = null;
 
-    private static Kernel $kernel;
+    private static $kernel;
 
     /**
      * 处理路由

@@ -14,7 +14,7 @@ use FireRabbit\Engine\Cache\Driver\RedisDriver;
 
 class Cache
 {
-    protected static DriverInterface $driver;
+    protected static $driver;
 
     public static function setConfig($cache, $config)
     {
