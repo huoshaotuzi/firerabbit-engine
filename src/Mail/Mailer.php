@@ -18,12 +18,6 @@ class Mailer
     protected static $config;
 
     /**
-     * 轮询计数器
-     * @var int
-     */
-    protected static $sort = 0;
-
-    /**
      * 邮件节点
      * @var array
      */
@@ -70,13 +64,9 @@ class Mailer
 
     public function send()
     {
-        $node = self::$pool[self::$sort];
-
-        self::$sort++;
-
-        if (self::$sort >= count(self::$pool)) {
-            self::$sort = 0;
-        }
+        // 随机选一个节点
+        $index = mt_rand(0, count(self::$pool) - 1);
+        $node = self::$pool[$index];
 
         // 载入节点配置
         self::$mail->Host = $node['host'];
