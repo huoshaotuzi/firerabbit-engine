@@ -121,4 +121,9 @@ class RedisDriver implements DriverInterface
     {
         return $this->instance->flushdb();
     }
+
+    public function ping(): bool
+    {
+        return $this->instance->ping();
+    }
 }

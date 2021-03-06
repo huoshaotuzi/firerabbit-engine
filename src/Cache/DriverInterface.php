@@ -22,6 +22,13 @@ interface DriverInterface
     public function load($config);
 
     /**
+     * 判断缓存数据库的连接状态
+     * swoole长连接会导致redis出现异常
+     * @return bool
+     */
+    public function ping(): bool;
+
+    /**
      * 自增
      * @param $key
      * @param $value
