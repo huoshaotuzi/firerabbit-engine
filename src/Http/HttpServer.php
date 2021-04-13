@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm
  * Author：FireRabbit
@@ -12,7 +13,6 @@ use FireRabbit\Engine\Auth\Auth;
 use FireRabbit\Engine\Cache\Cache;
 use FireRabbit\Engine\Constant;
 use FireRabbit\Engine\Database\Manager as DatabaseManager;
-use FireRabbit\Engine\Exception\ExceptionCatcher;
 use FireRabbit\Engine\Logger\Log as Logger;
 use FireRabbit\Engine\Mail\Mailer;
 use FireRabbit\Engine\Route\Router;
@@ -24,22 +24,12 @@ class HttpServer
 {
     protected $server;
     protected $router;
-    protected string $catcher;
+    protected $beforeFunc = null;
 
     public function __construct($host, $port, $config = [])
     {
         $this->server = new Server($host, $port);
         $this->server->set($config);
-    }
-
-    public function setExceptionCatcher(string $class)
-    {
-        if (class_exists($class)) {
-            $this->catcher = $class;
-        } else {
-            throw new \Exception($class . ' not found!');
-        }
-        return $this;
     }
 
     public function loadRouter(Router $router)
@@ -51,6 +41,16 @@ class HttpServer
     public function loadMiddleware($middleware)
     {
         \FireRabbit\Engine\Http\Middleware\Kernel::setConfig($middleware);
+        return $this;
+    }
+
+    /**
+     * 预加载方法
+     * 每次请求进来都会调用一次
+     */
+    public function before($func)
+    {
+        $this->beforeFunc = $func;
         return $this;
     }
 
@@ -76,6 +76,12 @@ class HttpServer
     public function request($request, $response)
     {
         $this->registerError($response);
+
+        // 预处理方法
+        if($this->beforeFunc != null) {
+            ($this->beforeFunc)();
+        }
+
         $this->router->handle($this->server, $request, $response);
     }
 
@@ -83,28 +89,16 @@ class HttpServer
     {
         register_shutdown_function(function () use ($response) {
             $error = error_get_last();
-            if (!empty($this->catcher)) {
-                (new $this->catcher($response))->handle($error);
-            } else {
-                $this->showException($response, $error);
+            switch ($error['type'] ?? null) {
+                case E_ERROR:
+                case E_PARSE:
+                case E_CORE_ERROR:
+                case E_COMPILE_ERROR:
+                    $response->status(500);
+                    $response->end($error['message']);
+                    break;
             }
         });
-    }
-
-    protected function showException($response, $error)
-    {
-        switch ($error['type'] ?? null) {
-            case E_ERROR :
-            case E_PARSE :
-            case E_CORE_ERROR :
-            case E_COMPILE_ERROR :
-                $response->status(500);
-                $response->end($error['message']);
-                break;
-            default:
-                $response->status(500);
-                $response->end('Unknown Exception');
-        }
     }
 
     public function task()
