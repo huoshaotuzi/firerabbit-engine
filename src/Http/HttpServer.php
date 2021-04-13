@@ -91,7 +91,7 @@ class HttpServer
 
         // 预处理方法
         if ($this->beforeFunc != null) {
-            ($this->beforeFunc)();
+            ($this->beforeFunc)($request);
         }
 
         $this->router->handle($this->server, $request, $response);
