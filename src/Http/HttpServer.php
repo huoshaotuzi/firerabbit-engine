@@ -17,6 +17,7 @@ use FireRabbit\Engine\Logger\Log as Logger;
 use FireRabbit\Engine\Mail\Mailer;
 use FireRabbit\Engine\Route\Router;
 use FireRabbit\Engine\Task\TaskInterface;
+use FireRabbit\Engine\Exception\ExceptionCatcher;
 use FireRabbit\Engine\View\Blade;
 use Swoole\Http\Server;
 
@@ -24,12 +25,23 @@ class HttpServer
 {
     protected $server;
     protected $router;
+    protected string $catcher;
     protected $beforeFunc = null;
 
     public function __construct($host, $port, $config = [])
     {
         $this->server = new Server($host, $port);
         $this->server->set($config);
+    }
+
+    public function setExceptionCatcher(string $class)
+    {
+        if (class_exists($class)) {
+            $this->catcher = $class;
+        } else {
+            throw new \Exception($class . ' not found!');
+        }
+        return $this;
     }
 
     public function loadRouter(Router $router)
@@ -78,7 +90,7 @@ class HttpServer
         $this->registerError($response);
 
         // 预处理方法
-        if($this->beforeFunc != null) {
+        if ($this->beforeFunc != null) {
             ($this->beforeFunc)();
         }
 
@@ -89,16 +101,29 @@ class HttpServer
     {
         register_shutdown_function(function () use ($response) {
             $error = error_get_last();
-            switch ($error['type'] ?? null) {
-                case E_ERROR:
-                case E_PARSE:
-                case E_CORE_ERROR:
-                case E_COMPILE_ERROR:
-                    $response->status(500);
-                    $response->end($error['message']);
-                    break;
+
+            if (!empty($this->catcher)) {
+                (new $this->catcher($response))->handle($error);
+            } else {
+                $this->showException($response, $error);
             }
         });
+    }
+
+    protected function showException($response, $error)
+    {
+        switch ($error['type'] ?? null) {
+            case E_ERROR:
+            case E_PARSE:
+            case E_CORE_ERROR:
+            case E_COMPILE_ERROR:
+                $response->status(500);
+                $response->end($error['message']);
+                break;
+            default:
+                $response->status(500);
+                $response->end('Unknown Exception');
+        }
     }
 
     public function task()
